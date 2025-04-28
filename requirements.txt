@@ -1,0 +1,18 @@
+# List of libraries to install using pip install -r requirements.txt
+openai
+langchain
+langchain-core
+langchain-openai
+langgraph
+langchain-google-genai
+ipython
+pyppeteer
+pandas==2.2.2 # Specific version for compatibility noted in notebook
+google-ai-generativelanguage==0.6.16 # Specific version for compatibility
+scikit-learn
+umap-learn
+tabpfn
+langgraph-checkpoint-sqlite
+matplotlib
+seaborn
+# Note: Ensure you have necessary system dependencies for pyppeteer if needed (e.g., Chromium)
