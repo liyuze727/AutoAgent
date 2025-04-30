@@ -1,6 +1,9 @@
-# AutoAgent Data Analysis and Feature Engineering Project
+# AutoAgent Project
 
-This is a Python project using LangChain Agents for automated data analysis and feature engineering. It first performs Exploratory Data Analysis (EDA) on the input dataset, generating text summaries and visualizations, and synthesizes a data context summary using a Large Language Model (LLM - Google Gemini). Subsequently, a second agent attempts to propose and engineer new features based on the EDA context and LLM suggestions, modifying the dataset.
+This is a Python project using LangChain Agents for automated data analysis, feature engineering, and clustering.
+1.  **Description Agent:** Performs Exploratory Data Analysis (EDA), generates summaries/visualizations, and uses an LLM (Google Gemini) for a data context summary. Allows human feedback for refinement.
+2.  **Feature Engineering Agent:** Based on the EDA context, proposes new features using the LLM and attempts to engineer them using pandas `eval`.
+3.  **Clustering Agent:** Takes the (potentially feature-engineered and preprocessed) data and applies multiple clustering algorithms (KMeans, GMM, Agglomerative, DBSCAN), evaluates them using Silhouette Score, selects the best, and generates a PCA visualization of the clusters.
 
 ## Prerequisites
 
@@ -35,23 +38,25 @@ This is a Python project using LangChain Agents for automated data analysis and 
 ## Running the Project
 
 1.  Ensure setup is complete (API key variable set).
-2.  In the **same terminal**, run:
+2.  In the **same terminal**, run the main script:
     ```bash
     python3 main.py
     ```
-3.  The `DescriptionAgent` runs first. It will pause and ask for approval (`Do you approve the LLM's output? (yes/no):`).
-    * `yes` (or `y`): Approves and proceeds to the Feature Engineering agent.
-    * `no` (or `n`): Prompts for feedback (`What aspect should be improved...`), revises the description, and asks for approval again.
-4.  After description approval, the `FeatureEngAgent` runs automatically. It will:
-    * Attempt to propose features using the LLM based on the context.
-    * Attempt to engineer these features by evaluating formulas.
-    * Print a report of successful/failed feature engineering attempts.
-    * Display information about the final DataFrame (potentially with new columns).
+3.  **Description Agent:** Runs first, performs EDA, calls LLM. Pauses for approval (`Do you approve... (yes/no):`).
+    * `yes`/`y`: Proceeds to Feature Engineering.
+    * `no`/`n`: Prompts for feedback, revises, asks again.
+4.  **Feature Engineering Agent:** Runs after description approval. Proposes and attempts to create features. Prints a report.
+5.  **Clustering Agent:** Runs after feature engineering (using the potentially modified and preprocessed data).
+    * Runs KMeans, GMM, Agglomerative, DBSCAN.
+    * Evaluates results using Silhouette Score (penalizes high DBSCAN noise).
+    * Prints an evaluation summary.
+    * Selects the best method.
+    * Generates and attempts to display a PCA visualization of the best clustering result (display requires a compatible environment like Jupyter or IPython).and **saves it as `cluster_visualization.png`** in the project directory. It also attempts to display the image inline if the environment supports it (e.g., Jupyter).
 
 ## File Structure
 
-* `main.py`: Main execution script, runs both agents.
-* `agents.py`: Defines `DescriptionAgent` and `FeatureEngAgent` classes and their graph logic.
+* `main.py`: Main script, runs data loading, preprocessing, and all agents sequentially.
+* `agents.py`: Defines `DescriptionAgent`, `FeatureEngAgent`, and `ClusteringAgent` classes and their graph logic.
 * `utils.py`: Contains EDA, context building, and LLM query helper functions.
 * `requirements.txt`: Required Python libraries.
 * `README.md`: (This file) Project description and setup guide.
