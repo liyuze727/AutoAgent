@@ -1,30 +1,28 @@
 # AutoAgent Data Analysis and Feature Engineering Project
 
-This is a Python project using LangChain Agents for automated data analysis and preliminary feature engineering suggestions. It first performs Exploratory Data Analysis (EDA) on the input dataset, generating text summaries and visualizations. Then, it utilizes a Large Language Model (LLM, Google Gemini in this case) to synthesize a data context summary. Subsequently, based on this summary and additional user input, it can further suggest or execute feature engineering steps (the current feature engineering part is a simplified example).
+This is a Python project using LangChain Agents for automated data analysis and feature engineering. It first performs Exploratory Data Analysis (EDA) on the input dataset, generating text summaries and visualizations, and synthesizes a data context summary using a Large Language Model (LLM - Google Gemini). Subsequently, a second agent attempts to propose and engineer new features based on the EDA context and LLM suggestions, modifying the dataset.
 
 ## Prerequisites
 
-* **Python 3:** Ensure you have Python 3 installed on your system (version 3.9 or higher recommended). If not, download and install it from [python.org](https://www.python.org/). Installing Python usually installs `pip3` automatically.
-* **pip3:** Python's package manager. If your system distinguishes between `pip` (Python 2) and `pip3` (Python 3), please use `pip3`. You can check by running `pip3 --version` in your terminal.
+* **Python 3:** Ensure you have Python 3 installed (version 3.9+ recommended). Comes with `pip3`. Download from [python.org](https://www.python.org/).
+* **pip3:** Python's package manager. Use `pip3 --version` to check.
 
 ## Setup
 
-1.  **Clone or Download Project:** Place the `agents.py`, `main.py`, `utils.py`, and `requirements.txt` files in the same project folder (e.g., `AutoAgent`).
-2.  **Install Dependencies:** Open a terminal, navigate to the project folder, and run:
+1.  **Clone/Download:** Place `agents.py`, `main.py`, `utils.py`, `requirements.txt` in one project folder (e.g., `AutoAgent`).
+2.  **Install Dependencies:** In the project folder terminal, run:
     ```bash
     pip3 install -r requirements.txt
     ```
 3.  **Get Google API Key:**
     * Visit [Google AI Studio](https://aistudio.google.com/).
-    * Log in with your Google account.
-    * Click "Get API key" and follow the instructions to create a new API key (you might need to associate it with a Google Cloud project).
-    * Copy the generated API key. **Please keep it safe and do not share it publicly.**
-4.  **Set Environment Variable:** **Before running the script**, you need to set the `GOOGLE_API_KEY` environment variable in your terminal. **Do not hardcode the key directly into the code!**
+    * Log in, click "Get API key", create/select a project, and copy the key. **Keep it secret.**
+4.  **Set Environment Variable:** Before running, set `GOOGLE_API_KEY` in your terminal. **Do not hardcode the key!**
     * **Linux / macOS:**
         ```bash
         export GOOGLE_API_KEY='your_api_key_here'
         ```
-    * **Windows (Command Prompt):**
+    * **Windows (CMD):**
         ```bash
         set GOOGLE_API_KEY=your_api_key_here
         ```
@@ -32,25 +30,29 @@ This is a Python project using LangChain Agents for automated data analysis and 
         ```bash
         $env:GOOGLE_API_KEY = 'your_api_key_here'
         ```
-    * **Note:** Replace `'your_api_key_here'` with your actual API key. This setting is typically only valid for the current terminal session.
+    * Replace `'your_api_key_here'` with your actual key. This is session-specific.
 
 ## Running the Project
 
-1.  Ensure you have completed all the setup steps above (especially setting the API key environment variable).
-2.  In the **same terminal** where you set the environment variable, run the main script:
+1.  Ensure setup is complete (API key variable set).
+2.  In the **same terminal**, run:
     ```bash
     python3 main.py
     ```
-3.  The program will load the data and run the `DescriptionAgent`. After the `DescriptionAgent`'s LLM outputs, it will pause in the terminal and ask for your approval (`Do you approve the LLM's output? (yes/no):`).
-    * Enter `yes` (or `y`) to approve and continue (if the `FeatureEngAgent` is configured to run next).
-    * Enter `no` (or `n`) to disapprove. The program will then prompt you for improvement suggestions (`What aspect should be improved...`), and call the LLM again for revision.
-4.  (If `run_fe_agent` is set to `True` in `main.py`) The program will proceed to run the feature engineering steps (currently a simplified example).
+3.  The `DescriptionAgent` runs first. It will pause and ask for approval (`Do you approve the LLM's output? (yes/no):`).
+    * `yes` (or `y`): Approves and proceeds to the Feature Engineering agent.
+    * `no` (or `n`): Prompts for feedback (`What aspect should be improved...`), revises the description, and asks for approval again.
+4.  After description approval, the `FeatureEngAgent` runs automatically. It will:
+    * Attempt to propose features using the LLM based on the context.
+    * Attempt to engineer these features by evaluating formulas.
+    * Print a report of successful/failed feature engineering attempts.
+    * Display information about the final DataFrame (potentially with new columns).
 
 ## File Structure
 
-* `main.py`: Main execution script.
-* `agents.py`: Defines the `DescriptionAgent` and `FeatureEngAgent` classes.
-* `utils.py`: Contains functions for data processing, EDA, and LLM helper calls.
-* `requirements.txt`: List of required Python libraries for the project.
+* `main.py`: Main execution script, runs both agents.
+* `agents.py`: Defines `DescriptionAgent` and `FeatureEngAgent` classes and their graph logic.
+* `utils.py`: Contains EDA, context building, and LLM query helper functions.
+* `requirements.txt`: Required Python libraries.
 * `README.md`: (This file) Project description and setup guide.
 
