@@ -1,4 +1,4 @@
-# AutoAgent Data Analysis and Feature Engineering Project
+# AutoAgent Project
 
 This is a Python project using LangChain Agents for automated data analysis and feature engineering. It first performs Exploratory Data Analysis (EDA) on the input dataset, generating text summaries and visualizations, and synthesizes a data context summary using a Large Language Model (LLM - Google Gemini). Subsequently, a second agent attempts to propose and engineer new features based on the EDA context and LLM suggestions, modifying the dataset.
 
