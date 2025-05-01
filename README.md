@@ -18,7 +18,7 @@ This is a Python project using LangChain Agents for automated data analysis, fea
     pip3 install -r requirements.txt
     ```
 3.  **Get Google API Key:**
-    * Visit [Google AI Studio](https://aistudio.google.com/)..
+    * Visit [Google AI Studio](https://aistudio.google.com/).
     * Log in, click "Get API key", create/select a project, and copy the key. **Keep it secret.**
 4.  **Set Environment Variable:** Before running, set `GOOGLE_API_KEY` in your terminal. **Do not hardcode the key!**
     * **Linux / macOS:**
